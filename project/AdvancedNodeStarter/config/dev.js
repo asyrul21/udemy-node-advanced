@@ -6,4 +6,6 @@ module.exports = {
     "mongodb+srv://learner1:12341234@udemycourseadvancednode.cj2lurn.mongodb.net/advancednode?retryWrites=true&w=majority",
   cookieKey: "123123123", // secret
   redisUrl: "redis://127.0.0.1:6379",
+  accessKeyId: "",
+  secretAccessKey: "",
 };
