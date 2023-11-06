@@ -113,6 +113,14 @@ Files and concepts:
 
 11. index.js (Serving built client files - Common Architectural Pattern)
 
+12. client/src/components/BlogFormReview.js - UI Image Upload
+
+13. client/src/actions/index.js - `submitBlog` - UI Image Upload
+
+14. routes/uploadRoutes.js - Image Upload Mechanism
+
+15. client/src/components/BlogShow.js - `renderImage` function
+
 ### Headless Browser Testing
 
 Dependencies: Jest and Puppeteer:
@@ -120,6 +128,106 @@ Dependencies: Jest and Puppeteer:
 ```json
     "jest": "23.6.0",
     "puppeteer": "1.3.0",
+```
+
+### AWS Notes
+
+S3 Bucket-Specific Access Policy (Visual):
+
+1. Create New Policy on AWS (course-node-advanced-s3-policy)
+
+2. Select Service - S3
+
+3. Check 'All S3 Actions'
+
+4. Go to Bucket - Add ARNs
+
+5. Go to Object - Add ARNs
+
+6. Create user (course-node-advanced-user) and assing policy to him
+
+7. Grab the Access Key ID and Secret Access Key
+
+8. JSON Policy:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListStorageLensConfigurations",
+        "s3:ListAccessPointsForObjectLambda",
+        "s3:GetAccessPoint",
+        "s3:PutAccountPublicAccessBlock",
+        "s3:GetAccountPublicAccessBlock",
+        "s3:ListAllMyBuckets",
+        "s3:ListAccessPoints",
+        "s3:PutAccessPointPublicAccessBlock",
+        "s3:ListJobs",
+        "s3:PutStorageLensConfiguration",
+        "s3:ListMultiRegionAccessPoints",
+        "s3:CreateJob"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "VisualEditor1",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::course-node-advanced",
+        "arn:aws:s3:::course-node-advanced/*"
+      ]
+    }
+  ]
+}
+```
+
+Install aws-dsk
+
+```bash
+npm install --save aws-sdk
+```
+
+Install UUID
+
+```bash
+npm install --save uuid
+```
+
+S3 CORS Configuration:
+
+```json
+[
+  {
+    "AllowedHeaders": ["*"],
+    "AllowedMethods": ["PUT"],
+    "AllowedOrigins": ["http://localhost:3000"],
+    "ExposeHeaders": [],
+    "MaxAgeSeconds": 3000
+  }
+]
+```
+
+S3 Bucket Policy:
+
+```json
+{
+  "Id": "Policy1698974539505",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1698974538199",
+      "Action": ["s3:GetObject"],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::course-node-advanced/*",
+      "Principal": "*"
+    }
+  ]
+}
 ```
 
 # Refs
