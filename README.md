@@ -1,4 +1,4 @@
-# Udemy Course: Advanced NodeJS
+# Advanced NodeJS notes
 
 This repository stores the exercise and code-along codes from Udemy courses:
 
@@ -7,6 +7,10 @@ This repository stores the exercise and code-along codes from Udemy courses:
 [Official Repository by Author](https://github.com/StephenGrider/AdvancedNodeComplete)
 
 2. [Node JS Cluster with PM2, Rabbit MQ, Redis and Nginx](https://www.udemy.com/course/node-js-cluster/)
+
+3. [Rabbit MQ In Practice](https://www.udemy.com/course/rabbitmq-in-practice/) but transposed to NodeJS
+
+[Official Repository by Author](https://github.com/bigdotsoftware/RabbitMQ-In-Practice)
 
 ## Notes
 
@@ -307,11 +311,20 @@ module.exports = {
 
 ## RabbitMQ
 
+Rabbit MQ: Dumb Consumner, Smart Broker (Exchange)
+
+Kafka: Smart Consumer, Dumb Broker
+
+[Official Reference](https://www.rabbitmq.com/install-homebrew.html#:~:text=Locations,%7D%2F%20for%20Apple%20Silicon%20Macs.)
+
 ### Installation
 
 1. Install on computer/macOS using homebrew: https://www.rabbitmq.com/install-homebrew.html, and run it as a service:
 
 ```bash
+brew update
+brew install rabbitmq
+
 brew services list
 brew services start rabbitmq
 
@@ -319,19 +332,49 @@ brew services start rabbitmq
 # userId: guest
 # password: guest
 http://localhost:15672
+
+# using API:
+# on browser, go: http://localhost:15672/api/index.html
+
+# path to config (Apple Silicon)
+# /opt/homebrew/etc/rabbitmq/
+# /opt/homebrew/etc/rabbitmq/rabbitmq-env.conf
 ```
 
-2. Install amqp
+2. Rabbit MQ Additional Setup
+
+[Reference](https://medium.com/macoclock/setup-rabbitmq-on-your-macos-in-3-mins-f27d3ce25f55)
+
+2.a find location of binary
+
+```bash
+# on M1 mac: /opt/homebrew/Cellar
+# /opt/homebrew/Cellar/rabbitmq/{version}/sbin
+# /opt/homebrew/Cellar/rabbitmq/3.12.8/sbin
+
+# on Intel Macs it could be at:
+# /usr/local/Cellar/rabbitmq/{version}/
+```
+
+2.b add export path to your .zshrc or bashrc
+
+```bash
+# export PATH=$PATH:/opt/homebrew/Cellar/rabbitmq/3.12.8/sbin
+```
+
+2.c Test
+
+```bash
+# rabbitmqctl status
+```
+
+3. Install amqp
 
 ```bash
 npm install --save amqplib # rabbittmq client for nodejs
 ```
 
 ### Listing Out All Queues
-
-1. Navigate to rabbitmq bin location on machine
-
-2. Run
 
 ```bash
 rabbitmqctl list_queues
@@ -374,6 +417,34 @@ nginx -V
 
 # Commands
 # sudo nginx -s stop/quit/reload/reopen
+```
+
+# Rabbit MQ In Practice (Course)
+
+Important Queue metrics:
+
+1. Queue Size
+
+2. Queue Age (Time)
+
+## Creating Config File
+
+In Rabbit MQ Installation Folder, create `rabbitmq.conf` file
+
+[Github Example](https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbit/docs/rabbitmq.conf.example)
+
+```bash
+# path to config (Apple Silicon)
+# /opt/homebrew/etc/rabbitmq/
+```
+
+## Enabling Plugins (MacOS)
+
+Make sure to go through Additional Setup above.
+
+```bash
+rabbitmq-plugins enable [plugin]
+# rabbitmq-plugins enable rabbitmq_management
 ```
 
 # TODO
